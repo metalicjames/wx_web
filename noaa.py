@@ -32,13 +32,13 @@ def get_forecast(forecast_time: datetime.datetime,
 
         if correct_date:
             if ftime.hour == 12:
-                low = row['n_x']
+                low = int(row['n_x'])
             if ftime.hour == 0:
-                high = row['n_x']
-            wind = max(wind, row['wsp'])
+                high = int(row['n_x'])
+            wind = max(wind, int(row['wsp']))
             q = row['q06']
             if q is not None:
-                precip += q 
+                precip += float(q) 
 
     forecast = wxchal.Forecast(fdate, high, low, wind, precip)
 

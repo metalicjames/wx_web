@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>WxChallenge Models</title>
+        <style>
+            
+        </style>
+    </head>
+    <body style="font-family: Monaco;">
+        <h1>
+            WxChallenge Models
+        </h1>
+        <h2>
+            {{ station }}
+        </h2>
+        <p>
+            <strong>
+                Models generated on:
+            </strong> 
+            {{ f_date }}
+        </p>
+        <p>
+            <strong>
+                Forecast period:
+            </strong> 
+            {{ f_start }} - {{ f_end }}
+        </p>
+        <table>
+            <thead>
+                <tr><th>High</th><th>Low</th><th>Wind</th><th>Precip</th></tr>
+            </thead>
+            <tbody>
+                {% for m, f in data|dictsort(true) %}
+                    <tr>
+                        <td>
+                            {{ m }}
+                        </td>
+                        <td>
+                            {{ f[0] }}
+                        </td>
+                        <td>
+                            {{ f[1] }}
+                        </td>
+                        <td>
+                            {{ f[2] }}
+                        </td>
+                        <td>
+                            {{ f[3] }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
+</html>

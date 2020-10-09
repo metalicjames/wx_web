@@ -23,3 +23,9 @@ class Forecast:
         arr[:] = [str(x) for x in arr]
 
         return ' '.join(arr)
+
+    def data_array(self):
+        return [self.high_temperature, 
+                self.low_temperature,
+                self.peak_wind_speed,
+                self.precip_accumulated]
