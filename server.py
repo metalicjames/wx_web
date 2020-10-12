@@ -4,6 +4,7 @@ import flask
 
 import noaa
 import usl
+import asos
 
 app = flask.Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
@@ -79,9 +80,16 @@ def wxchallenge_station():
                                 hour=6)
     f_end = f_start + datetime.timedelta(days=1)
 
+    yesterday = today - datetime.timedelta(days=1)
+
+    verification, last_valid = asos.get_observation(yesterday, 
+                                                    station_name)
+
     return flask.render_template('index.html', 
                                  data=ret, 
                                  f_date=today,
                                  f_start=f_start,
                                  f_end=f_end,
-                                 station=station_name)
+                                 station=station_name,
+                                 ver=verification.data_array(),
+                                 last_valid=last_valid)
