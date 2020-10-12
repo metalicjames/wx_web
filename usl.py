@@ -20,7 +20,7 @@ def get_forecast(forecast_time: datetime.datetime,
 
     resp = requests.get(request_url)
 
-    if resp.status_code != 200:
+    if resp.status_code != 200 or resp.url != request_url:
         raise RuntimeError('Forecast unavailable for station and time')
 
     soup = bs4.BeautifulSoup(resp.text, 'html.parser')
