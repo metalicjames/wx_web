@@ -10,7 +10,7 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 @app.route('/')
 def wxchallenge_station():
-    station_name = 'KGRR'
+    station_name = 'KGFL'
     today = datetime.date.today()
     
     def getdate(hour):
