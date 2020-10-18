@@ -3,6 +3,7 @@ import datetime
 import requests
 
 import wxchal
+import util
 
 
 def get_observation(forecast_time: datetime.datetime,
@@ -36,7 +37,7 @@ def get_observation(forecast_time: datetime.datetime,
 
     request_url = ASOS_URL + '&' + '&'.join(args)
 
-    r = requests.get(request_url)
+    r = util.cached_get(request_url, datetime.timedelta(minutes=15))
 
     reader = csv.reader(r.text.splitlines())
 

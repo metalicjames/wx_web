@@ -64,15 +64,6 @@ def wxchallenge_station():
         pass
 
     try:
-        ret['NAM 18Z'] = noaa.get_forecast(getdate(18),
-                                           station_name,
-                                           'NAM').data_array()
-    except KeyError:
-        pass
-    except RuntimeError:
-        pass
-
-    try:
         ret['USL 12Z'] = usl.get_forecast(getdate(12),
                                           station_name).data_array()
     except KeyError:

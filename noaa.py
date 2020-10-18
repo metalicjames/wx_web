@@ -2,6 +2,7 @@ import datetime
 import requests
 
 import wxchal
+import util
 
 
 def get_forecast(forecast_time: datetime.datetime,
@@ -15,7 +16,8 @@ def get_forecast(forecast_time: datetime.datetime,
 
     args = '&'.join([k + '=' + v for k, v in args.items()])
 
-    r = requests.get(MESONET_URL + args).json()
+    r = util.cached_get(MESONET_URL + args,
+                        datetime.timedelta(minutes=15)).json()
 
     fdate = forecast_time.date() + datetime.timedelta(days=1)
 

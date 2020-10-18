@@ -4,6 +4,7 @@ import requests
 import bs4
 
 import wxchal
+import util
 
 
 def get_forecast(forecast_time: datetime.datetime,
@@ -19,7 +20,7 @@ def get_forecast(forecast_time: datetime.datetime,
 
     request_url += '.html'
 
-    resp = requests.get(request_url)
+    resp = util.cached_get(request_url, datetime.timedelta(minutes=15))
 
     if resp.status_code != 200 or resp.url != request_url:
         raise RuntimeError('Forecast unavailable for station and time')
