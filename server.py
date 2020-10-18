@@ -9,21 +9,28 @@ import asos
 app = flask.Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
+
 @app.route('/')
 def wxchallenge_station():
+    date = flask.request.args.get('date')
+
+    if date is None:
+        date = datetime.date.today()
+    else:
+        date = datetime.datetime.strptime(date, '%Y%m%d').date()
+
     station_name = 'KGFL'
-    today = datetime.date.today()
-    
+
     def getdate(hour):
-        return datetime.datetime(year=today.year, 
-                                 month=today.month,
-                                 day=today.day,
+        return datetime.datetime(year=date.year,
+                                 month=date.month,
+                                 day=date.day,
                                  hour=hour)
     ret = {}
 
     try:
-        ret['GFS 18Z'] = noaa.get_forecast(getdate(18), 
-                                           station_name, 
+        ret['GFS 18Z'] = noaa.get_forecast(getdate(18),
+                                           station_name,
                                            'GFS').data_array()
     except KeyError:
         pass
@@ -31,8 +38,8 @@ def wxchallenge_station():
         pass
 
     try:
-        ret['NAM 12Z'] = noaa.get_forecast(getdate(12), 
-                                           station_name, 
+        ret['NAM 12Z'] = noaa.get_forecast(getdate(12),
+                                           station_name,
                                            'NAM').data_array()
     except KeyError:
         pass
@@ -40,7 +47,7 @@ def wxchallenge_station():
         pass
 
     try:
-        ret['USL 22Z'] = usl.get_forecast(getdate(22), 
+        ret['USL 22Z'] = usl.get_forecast(getdate(22),
                                           station_name).data_array()
     except KeyError:
         pass
@@ -48,8 +55,8 @@ def wxchallenge_station():
         pass
 
     try:
-        ret['GFS 12Z'] = noaa.get_forecast(getdate(12), 
-                                           station_name, 
+        ret['GFS 12Z'] = noaa.get_forecast(getdate(12),
+                                           station_name,
                                            'GFS').data_array()
     except KeyError:
         pass
@@ -57,8 +64,8 @@ def wxchallenge_station():
         pass
 
     try:
-        ret['NAM 18Z'] = noaa.get_forecast(getdate(18), 
-                                           station_name, 
+        ret['NAM 18Z'] = noaa.get_forecast(getdate(18),
+                                           station_name,
                                            'NAM').data_array()
     except KeyError:
         pass
@@ -66,28 +73,28 @@ def wxchallenge_station():
         pass
 
     try:
-        ret['USL 12Z'] = usl.get_forecast(getdate(12), 
+        ret['USL 12Z'] = usl.get_forecast(getdate(12),
                                           station_name).data_array()
     except KeyError:
         pass
     except RuntimeError:
         pass
 
-    tomorrow = today + datetime.timedelta(days=1)
+    tomorrow = date + datetime.timedelta(days=1)
     f_start = datetime.datetime(year=tomorrow.year,
                                 month=tomorrow.month,
                                 day=tomorrow.day,
                                 hour=6)
     f_end = f_start + datetime.timedelta(days=1)
 
-    yesterday = today - datetime.timedelta(days=1)
+    yesterday = date - datetime.timedelta(days=1)
 
-    verification, last_valid = asos.get_observation(yesterday, 
+    verification, last_valid = asos.get_observation(yesterday,
                                                     station_name)
 
-    return flask.render_template('index.html', 
-                                 data=ret, 
-                                 f_date=today,
+    return flask.render_template('index.html',
+                                 data=ret,
+                                 f_date=date,
                                  f_start=f_start,
                                  f_end=f_end,
                                  station=station_name,
