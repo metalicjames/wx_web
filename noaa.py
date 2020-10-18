@@ -3,11 +3,12 @@ import requests
 
 import wxchal
 
-def get_forecast(forecast_time: datetime.datetime, 
-                 station: str, 
+
+def get_forecast(forecast_time: datetime.datetime,
+                 station: str,
                  model: str) -> wxchal.Forecast:
     MESONET_URL = 'https://mesonet.agron.iastate.edu/api/1/mos.json?'
-    
+
     args = {'station': station.upper(),
             'runtime': forecast_time.strftime('%Y-%m-%d %H:00Z'),
             'model': model.upper()}
@@ -22,12 +23,12 @@ def get_forecast(forecast_time: datetime.datetime,
     precip = 0.0
 
     for row in r['data']:
-        ftime = datetime.datetime.strptime(row['ftime'], 
+        ftime = datetime.datetime.strptime(row['ftime'],
                                            '%Y-%m-%dT%H:00:00.000Z')
-        
+
         f_start = datetime.datetime(fdate.year, fdate.month, fdate.day, 6)
         f_stop = f_start + datetime.timedelta(days=1)
-        
+
         correct_date = ftime >= f_start and ftime < f_stop
 
         if correct_date:
@@ -38,7 +39,7 @@ def get_forecast(forecast_time: datetime.datetime,
             wind = max(wind, int(row['wsp']))
             q = row['q06']
             if q is not None:
-                precip += float(q) 
+                precip += float(q)
 
     forecast = wxchal.Forecast(fdate, high, low, wind, precip)
 

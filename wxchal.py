@@ -1,5 +1,6 @@
 import datetime
 
+
 class Forecast:
     def __init__(self,
                  forecast_date: datetime.date,
@@ -25,7 +26,7 @@ class Forecast:
         return ' '.join(arr)
 
     def data_array(self):
-        return [self.high_temperature, 
+        return [self.high_temperature,
                 self.low_temperature,
                 self.peak_wind_speed,
                 self.precip_accumulated]
