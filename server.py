@@ -71,6 +71,10 @@ def wxchallenge_station():
     except RuntimeError:
         pass
 
+    for k, v in ret.items():
+        if isinstance(v[3], tuple):
+            ret[k][3] = '-'.join([str(round(x, 2)) for x in v[3]])
+
     tomorrow = date + datetime.timedelta(days=1)
     f_start = datetime.datetime(year=tomorrow.year,
                                 month=tomorrow.month,
@@ -86,6 +90,7 @@ def wxchallenge_station():
     return flask.render_template('index.html',
                                  data=ret,
                                  f_date=date,
+                                 f_tomorrow=tomorrow,
                                  f_start=f_start,
                                  f_end=f_end,
                                  station=station_name,

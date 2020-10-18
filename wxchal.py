@@ -15,13 +15,17 @@ class Forecast:
         self.precip_accumulated = precip_accumulated
 
     def __str__(self):
+        if isinstance(self.precip_accumulated, tuple):
+            precip = round(self.precip_accumulated[0], 2) + '-' + \
+                     round(self.precip_accumulated[1], 2)
+        else:
+            precip = round(self.precip_accumulated, 2)
+
         arr = [self.forecast_date.strftime('%Y%m%d'),
                self.high_temperature,
                self.low_temperature,
                self.peak_wind_speed,
-               round(self.precip_accumulated, 2)]
-
-        arr[:] = [str(x) for x in arr]
+               precip]
 
         return ' '.join(arr)
 

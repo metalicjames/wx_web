@@ -32,11 +32,11 @@
             {{ ver[0] }} {{ ver[1] }} {{ ver[2] }} {{ ver[3] }}
         </p>
         <h3>
-            Forecasts for tomorrow
+            Forecasts for {{ f_tomorrow }}
         </h3>
         <table>
             <thead>
-                <tr><th>High</th><th>Low</th><th>Wind</th><th>Precip</th></tr>
+                <tr><th>Model</th><th>High</th><th>Low</th><th>Wind</th><th>Precip</th></tr>
             </thead>
             <tbody>
                 {% for m, f in data|dictsort(true) %}

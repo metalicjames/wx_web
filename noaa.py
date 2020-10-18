@@ -5,6 +5,23 @@ import wxchal
 import util
 
 
+def qpf_to_inches(qpf: int) -> (float, float):
+    if qpf == 0:
+        return (0.0, 0.0)
+    elif qpf == 1:
+        return (0.01, 0.09)
+    elif qpf == 2:
+        return (0.1, 0.24)
+    elif qpf == 3:
+        return (0.25, 0.49)
+    elif qpf == 4:
+        return (0.5, 0.99)
+    elif qpf == 5:
+        return (1.0, 1.99)
+    elif qpf == 6:
+        return (2.00, float('inf'))
+
+
 def get_forecast(forecast_time: datetime.datetime,
                  station: str,
                  model: str) -> wxchal.Forecast:
@@ -22,7 +39,7 @@ def get_forecast(forecast_time: datetime.datetime,
     fdate = forecast_time.date() + datetime.timedelta(days=1)
 
     wind = 0
-    precip = 0.0
+    precip = (0.0, 0.0)
 
     for row in r['data']:
         ftime = datetime.datetime.strptime(row['ftime'],
@@ -41,7 +58,8 @@ def get_forecast(forecast_time: datetime.datetime,
             wind = max(wind, int(row['wsp']))
             q = row['q06']
             if q is not None:
-                precip += float(q)
+                inches = qpf_to_inches(int(q))
+                precip = (precip[0] + inches[0], precip[1] + inches[1])
 
     forecast = wxchal.Forecast(fdate, high, low, wind, precip)
 
