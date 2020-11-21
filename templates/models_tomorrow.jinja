@@ -15,7 +15,12 @@
 </p>
 <table>
     <thead>
-        <tr><th>Model</th><th>High</th><th>Low</th><th>Wind</th><th>Precip</th></tr>
+        <tr>
+            <th>
+                Model
+            </th>
+            {% include 'forecast_table_headers.jinja' %}
+        </tr>
     </thead>
     <tbody>
         {% for m, f in data|dictsort(true) %}

@@ -1,6 +1,25 @@
+<h3>
+    Verification for {{ f_date }}
+</h3>
 <p>
     <strong>
-        Verification for {{ f_date }} as of {{ last_valid }}:
+        Valid as of: 
     </strong>
-    {{ ver[0] }} {{ ver[1] }} {{ ver[2] }} {{ ver[3] }}
+    {{ last_valid }}
 </p>
+<table>
+    <thead>
+        <tr>
+            {% include 'forecast_table_headers.jinja' %}
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            {% for item in ver %}
+                <td>
+                    {{ item }}
+                </td>
+            {% endfor %}
+        </tr>
+    </tbody>
+</table>
