@@ -92,7 +92,7 @@ def wxchallenge_station():
     else:
         verification_arr = []
 
-    return flask.render_template('index.html',
+    return flask.render_template('index.jinja',
                                  data=ret,
                                  f_date=date,
                                  f_tomorrow=tomorrow,

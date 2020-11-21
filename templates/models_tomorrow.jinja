@@ -1,0 +1,41 @@
+<h3>
+    Forecasts for {{ f_tomorrow }}
+</h3>
+<p>
+    <strong>
+        Forecast period:
+    </strong> 
+    {{ f_start }} - {{ f_end }}
+</p>
+<p>
+    <strong>
+        Models generated on:
+    </strong> 
+    {{ f_date }}
+</p>
+<table>
+    <thead>
+        <tr><th>Model</th><th>High</th><th>Low</th><th>Wind</th><th>Precip</th></tr>
+    </thead>
+    <tbody>
+        {% for m, f in data|dictsort(true) %}
+            <tr>
+                <td>
+                    {{ m }}
+                </td>
+                <td>
+                    {{ f[0] }}
+                </td>
+                <td>
+                    {{ f[1] }}
+                </td>
+                <td>
+                    {{ f[2] }}
+                </td>
+                <td>
+                    {{ f[3] }}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
