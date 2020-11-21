@@ -19,7 +19,7 @@ def wxchallenge_station():
     else:
         date = datetime.datetime.strptime(date, '%Y%m%d').date()
 
-    station_name = 'KGFL'
+    station_name = 'KMAF'
 
     def getdate(hour):
         return datetime.datetime(year=date.year,
@@ -87,6 +87,11 @@ def wxchallenge_station():
     verification, last_valid = asos.get_observation(yesterday,
                                                     station_name)
 
+    if verification is not None:
+        verification_arr = verification.data_array()
+    else:
+        verification_arr = []
+
     return flask.render_template('index.html',
                                  data=ret,
                                  f_date=date,
@@ -94,5 +99,5 @@ def wxchallenge_station():
                                  f_start=f_start,
                                  f_end=f_end,
                                  station=station_name,
-                                 ver=verification.data_array(),
+                                 ver=verification_arr,
                                  last_valid=last_valid)
